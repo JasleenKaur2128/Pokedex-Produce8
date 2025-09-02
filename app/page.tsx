@@ -127,8 +127,7 @@ export default function Home() {
             {filteredPokemon && filteredPokemon.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 {filteredPokemon.map((pokemon) => (
-                  <PokemonCard key={pokemon.id} pokemon={pokemon} />
-                ))}
+                  <PokemonCard key={pokemon.id} pokemon={pokemon} handleClick={handlePokemonClick} />                ))}
               </div>
             ) : (
               <NoPokemonFound />
