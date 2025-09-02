@@ -8,6 +8,7 @@ import { Pokemon } from '@/types/pokemon';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Skeleton } from './ui/skeleton';
+import { PokemonAbility } from './pokemon-ability';
 
 interface PokemonOverviewProps {
   pokemon: Pokemon | undefined;
@@ -20,9 +21,7 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
   const pokemonHeight = pokemon?.height ? pokemon.height / 10 : 0;
   const pokemonWeight = pokemon?.weight ? pokemon.weight / 10 : 0;
 
-  const handleImageLoad = () => {
-    setImageLoaded(true);
-  };
+  const handleImageLoad = () => setImageLoaded(true);
 
   const handleImageError = () => {
     setImageError(true);
@@ -65,7 +64,7 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
           )}
         </div>
 
-        <div className="flex flex-col items-center gap-y-12 lg:gap-y-8 lg:items-center">
+        <div className="flex flex-col items-center gap-y-8 lg:gap-y-8 lg:items-center">
           <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-8">
             <div className="flex flex-col items-center lg:items-start">
               <div className="text-sm text-muted-foreground">Height</div>
@@ -86,9 +85,7 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
               <span
                 key={type.name}
                 className="text-base font-medium text-white px-3 py-1 rounded-full"
-                style={{
-                  backgroundColor: getTypeColor(type.name),
-                }}
+                style={{ backgroundColor: getTypeColor(type.name) }}
               >
                 {formatTypeName(type.name)}
               </span>
@@ -97,7 +94,21 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
         </div>
       </div>
 
-      {/* TODO: Add Abilities and Base Stats */}
+      <section>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Abilities</h2>
+        <ul className="flex flex-col gap-4">
+          {pokemon.abilities &&
+            pokemon.abilities.map((a) => (
+              <PokemonAbility
+                key={a.ability.name}
+                abilityName={a.ability.name}
+                isHidden={a.is_hidden}
+              />
+            ))}
+        </ul>
+      </section>
+
+      {/* TODO: Add Base Stats */}
     </section>
   );
 }
