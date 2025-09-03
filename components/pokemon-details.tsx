@@ -2,6 +2,7 @@ import { Pokemon } from '@/types/pokemon';
 import { InfoIcon, TrendingUp } from 'lucide-react';
 import { PokemonDetailsTab } from './pokemon-details-tab';
 import { PokemonOverview } from './pokemon-overview';
+import { PokemonStatsChart } from './pokemon-stats-chart';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 
 interface PokemonDetailsProps {
@@ -24,7 +25,7 @@ export function PokemonDetails({ pokemon }: PokemonDetailsProps) {
           <TabsTrigger value="details">
             <InfoIcon className="w-4 h-4 mr-2" />
             Details
-            </TabsTrigger>
+          </TabsTrigger>
           <TabsTrigger value="stats">
             <TrendingUp className="w-4 h-4 mr-2" />
             Stats Chart
@@ -34,9 +35,7 @@ export function PokemonDetails({ pokemon }: PokemonDetailsProps) {
           <PokemonDetailsTab pokemon={pokemon} />
         </TabsContent>
         <TabsContent value="stats" className="mt-4">
-          <div className="text-center text-gray-600 mt-8">
-            Stats Charts coming soon...
-          </div>
+            <PokemonStatsChart pokemon={pokemon} />
         </TabsContent>
       </Tabs>
     </div>
