@@ -6,7 +6,16 @@ import { formatStatsName } from '@/lib/pokemon-utils';
 import { Pokemon } from '@/types/pokemon';
 import { BarChart3Icon, Zap } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { PokemonStatsTooltip } from './pokemon-stats-tooltip';
 import { StatCard } from './stat-card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
@@ -181,6 +190,9 @@ export function PokemonStatsChart({ pokemon }: PokemonStatsChartProps) {
               angle: -90,
               position: "insideLeft",
             }}
+          />
+          <Tooltip
+            content={<PokemonStatsTooltip selectedAbility={selectedAbility} />}
           />
           <Legend />
           <Bar dataKey="baseStat" fill="#3b82f6" name="Base Stat" />
