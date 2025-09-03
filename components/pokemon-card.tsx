@@ -2,10 +2,12 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLazyQuery } from '@/hooks/use-query';
 import { getPokemonDetails } from '@/lib/api';
 import {
+  formatAbilityName,
   formatPokemonName,
   formatTypeName,
   getPokemonImageUrl,
@@ -102,10 +104,44 @@ export function PokemonCard({ handleClick, pokemon }: PokemonCardProps) {
             </div>
           )}
 
+          {/* Abilities */}
+          {detailedPokemon?.abilities &&
+            detailedPokemon.abilities.length > 0 && (
+              <div className="mb-3">
+                <Label className="text-sm font-medium text-gray-600 mb-2 block text-center">
+                  Abilities
+                </Label>
+                <div className="flex flex-wrap justify-center gap-1">
+                  {detailedPokemon.abilities.slice(0, 2).map(({ ability }) => (
+                    <Badge
+                      key={ability.name}
+                      variant="outline"
+                      className="text-xs border-gray-300 text-gray-700 hover:border-blue-400 hover:text-blue-600"
+                    >
+                      {formatAbilityName(ability.name)}
+                    </Badge>
+                  ))}
+                  {detailedPokemon.abilities.length > 2 && (
+                    <Badge
+                      variant="outline"
+                      className="text-xs border-gray-300 text-gray-700"
+                    >
+                      +{detailedPokemon.abilities.length - 2} more
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            )}
+
           {/* Loading state */}
           {isLoadingDetails && (
             <div className="space-y-2 mb-3">
               <div className="flex gap-2 justify-center">
+                <Skeleton className="h-6 w-16" />
+                <Skeleton className="h-6 w-16" />
+              </div>
+              <Skeleton className="h-4 w-20 mx-auto" />
+              <div className="flex gap-1 justify-center">
                 <Skeleton className="h-6 w-16" />
                 <Skeleton className="h-6 w-16" />
               </div>
