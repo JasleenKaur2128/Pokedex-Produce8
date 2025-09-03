@@ -7,6 +7,8 @@ import {
 import { Pokemon } from '@/types/pokemon';
 import Image from 'next/image';
 import { useState } from 'react';
+import { Badge } from './ui/badge';
+import { Label } from './ui/label';
 import { Skeleton } from './ui/skeleton';
 
 interface PokemonOverviewProps {
@@ -63,13 +65,13 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
       <div className="flex flex-col items-center gap-y-8 lg:gap-y-8 lg:items-center">
         <div className="flex flex-col items-center gap-4 lg:flex-row lg:gap-8">
           <div className="flex flex-col items-center lg:items-start">
-            <div className="text-sm text-muted-foreground">Height</div>
+            <Label className="text-sm text-muted-foreground">Height</Label>
             <div className="text-2xl font-bold text-gray-800">
               {pokemonHeight} m
             </div>
           </div>
           <div className="flex flex-col items-center lg:items-center">
-            <div className="text-sm text-muted-foreground">Weight</div>
+            <Label className="text-sm text-muted-foreground">Weight</Label>
             <div className="text-2xl font-bold text-gray-800">
               {pokemonWeight} kg
             </div>
@@ -78,13 +80,13 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
 
         <div className="flex flex-wrap justify-center gap-2 lg:justify-start">
           {pokemon.types?.map(({ type }) => (
-            <span
+            <Badge
               key={type.name}
-              className="text-base font-medium text-white px-3 py-1 rounded-full"
+              className="text-base font-medium text-white px-3 py-1"
               style={{ backgroundColor: getTypeColor(type.name) }}
             >
               {formatTypeName(type.name)}
-            </span>
+            </Badge>
           ))}
         </div>
       </div>

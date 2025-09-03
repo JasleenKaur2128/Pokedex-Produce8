@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 import { useAbilityDetails } from '@/hooks/use-ability-details';
 import { calculateAbilityEffect } from '@/lib/abilityEffects';
 import { formatStatsName } from '@/lib/pokemon-utils';
 import { Pokemon } from '@/types/pokemon';
-import { BarChart3Icon, Zap } from 'lucide-react';
+import { BarChart3Icon, Info, Zap } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import {
   Bar,
@@ -17,6 +17,7 @@ import {
 } from 'recharts';
 import { PokemonStatsTooltip } from './pokemon-stats-tooltip';
 import { StatCard } from './stat-card';
+import { Alert, AlertDescription } from './ui/alert';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
@@ -210,14 +211,15 @@ export function PokemonStatsChart({ pokemon }: PokemonStatsChartProps) {
         <StatCard title="Net Change" value={netChange} variant="change" />
       </div>
 
-      <div className="mt-6 p-4">
-        <p className="text-sm text-gray-600 leading-relaxed">
+      <Alert className="mt-6">
+        <Info className="h-4 w-4" />
+        <AlertDescription className="text-sm text-gray-600 leading-relaxed">
           <strong>Note:</strong> Ability effects shown are theoretical maximums
           and may depend on battle conditions, status effects, weather, or other
           factors not represented in this chart. Hover over bars to see detailed
           stat information and ability effects.
-        </p>
-      </div>
+        </AlertDescription>
+      </Alert>
     </Card>
   );
 }
