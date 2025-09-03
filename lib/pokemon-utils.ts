@@ -14,6 +14,13 @@ export function formatPokemonName(name: string): string {
   return name.charAt(0).toUpperCase() + name.slice(1).replace('-', ' ');
 }
 
+export function formatStatsName(name: string): string {
+  return name
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 export function formatTypeName(name: string): string {
   return name.charAt(0).toUpperCase() + name.slice(1);
 }
