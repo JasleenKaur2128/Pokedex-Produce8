@@ -37,7 +37,7 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
   }
 
   return (
-    <section className="from-white via-blue-50/30 to-purple-50/30 bg-gradient-to-br p-4 rounded-lg">
+    <section className="from-white via-blue-50/30 to-purple-50/30 bg-gradient-to-br rounded-lg">
       <div className="flex flex-col items-center mb-8">
         <div className="relative w-full max-w-[300px] lg:w-40 lg:h-40 aspect-square mb-4">
           {!imageLoaded && (
@@ -107,8 +107,6 @@ export function PokemonOverview({ pokemon }: PokemonOverviewProps) {
             ))}
         </ul>
       </section>
-
-      {/* TODO: Add Base Stats */}
     </section>
   );
 }
