@@ -1,11 +1,19 @@
 'use client';
 
+import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatPokemonName, getPokemonImageUrl } from '@/lib/pokemon-utils';
+import { useLazyQuery } from '@/hooks/use-query';
+import { getPokemonDetails } from '@/lib/api';
+import {
+  formatPokemonName,
+  formatTypeName,
+  getPokemonImageUrl,
+  getTypeColor,
+} from '@/lib/pokemon-utils';
 import { Pokemon } from '@/types/pokemon';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -15,6 +23,18 @@ interface PokemonCardProps {
 export function PokemonCard({ handleClick, pokemon }: PokemonCardProps) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+
+  // Lazy query for Pokemon details, loads immediately
+  const [
+    loadPokemonDetails,
+    { data: detailedPokemon, isLoading: isLoadingDetails },
+  ] = useLazyQuery(getPokemonDetails);
+
+  useEffect(() => {
+    if (!detailedPokemon && !isLoadingDetails) {
+      loadPokemonDetails("pokemon", pokemon.id.toString());
+    }
+  }, [pokemon.id, detailedPokemon, isLoadingDetails, loadPokemonDetails]);
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -64,6 +84,33 @@ export function PokemonCard({ handleClick, pokemon }: PokemonCardProps) {
           <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-200">
             {formatPokemonName(pokemon.name)}
           </h3>
+
+          {/* Types */}
+          {detailedPokemon?.types && detailedPokemon.types.length > 0 && (
+            <div className="mb-3">
+              <div className="flex flex-wrap justify-center gap-2">
+                {detailedPokemon.types.map(({ type }) => (
+                  <Badge
+                    key={type.name}
+                    className="text-xs font-medium text-white hover:scale-105"
+                    style={{ backgroundColor: getTypeColor(type.name) }}
+                  >
+                    {formatTypeName(type.name)}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Loading state */}
+          {isLoadingDetails && (
+            <div className="space-y-2 mb-3">
+              <div className="flex gap-2 justify-center">
+                <Skeleton className="h-6 w-16" />
+                <Skeleton className="h-6 w-16" />
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>
