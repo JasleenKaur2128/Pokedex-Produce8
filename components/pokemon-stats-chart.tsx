@@ -4,20 +4,20 @@ import { useAbilityDetails } from '@/hooks/use-ability-details';
 import { calculateAbilityEffect } from '@/lib/abilityEffects';
 import { formatStatsName } from '@/lib/pokemon-utils';
 import { Pokemon } from '@/types/pokemon';
-import { BarChart3Icon, Info, Zap } from 'lucide-react';
+import { BarChart3Icon, Zap } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import {
   Bar,
   BarChart,
   CartesianGrid,
   Legend,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
 import { PokemonStatsTooltip } from './pokemon-stats-tooltip';
 import { StatCard } from './stat-card';
-import { Alert, AlertDescription } from './ui/alert';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
@@ -181,45 +181,42 @@ export function PokemonStatsChart({ pokemon }: PokemonStatsChartProps) {
         )}
       </div>
 
-      <div className="w-full h-80">
-        <BarChart width={700} height={320} data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-          <XAxis dataKey="name" />
-          <YAxis
-            label={{
-              value: "Stat Value",
-              angle: -90,
-              position: "insideLeft",
-            }}
-          />
-          <Tooltip
-            content={<PokemonStatsTooltip selectedAbility={selectedAbility} />}
-          />
-          <Legend />
-          <Bar dataKey="baseStat" fill="#3b82f6" name="Base Stat" />
-          <Bar dataKey="modifiedStat" fill="#8b5cf6" name="Ability Modified" />
-        </BarChart>
+      <div className="w-full h-64 sm:h-80 lg:h-96">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={chartData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <XAxis dataKey="name" />
+            <YAxis
+              label={{
+                value: 'Stat Value',
+                angle: -90,
+                position: 'insideLeft',
+              }}
+            />
+            <Tooltip
+              content={<PokemonStatsTooltip selectedAbility={selectedAbility} />}
+            />
+            <Legend />
+            <Bar dataKey="baseStat" fill="#3b82f6" name="Base Stat" />
+            <Bar dataKey="modifiedStat" fill="#8b5cf6" name="Ability Modified" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
-      <div className="grid grid-cols-3 gap-4 mt-12">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-12">
         <StatCard title="Base Total" value={baseTotal} variant="base" />
-        <StatCard
-          title="Modified Total"
-          value={modifiedTotal}
-          variant="modified"
-        />
+        <StatCard title="Modified Total" value={modifiedTotal} variant="modified" />
         <StatCard title="Net Change" value={netChange} variant="change" />
       </div>
 
-      <Alert className="mt-6">
-        <Info className="h-4 w-4" />
-        <AlertDescription className="text-sm text-gray-600 leading-relaxed">
+      <div className="mt-6">
+        <div className="text-sm text-gray-600 leading-relaxed">
           <strong>Note:</strong> Ability effects shown are theoretical maximums
           and may depend on battle conditions, status effects, weather, or other
           factors not represented in this chart. Hover over bars to see detailed
           stat information and ability effects.
-        </AlertDescription>
-      </Alert>
+        </div>
+      </div>
     </Card>
   );
 }
